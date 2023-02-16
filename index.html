@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        background-position: 0%;
+        background-attachment: fixed;
+        background: rgb(0, 0, 0);
+        background: -webkit-linear-gradient(rgb(0,0,0), rgb(50,50,50));
+        background-size:cover;
+        color: rgb(0, 0, 0);
+      }
+     .container {
+        display: flex;
+        flex-direction:column;
+        height:98vh;
+        color: #fff;
+      }
+      .heading {
+        color: #fff;
+        font-size: 5rem;
+        background-color: rgba(0, 0, 0, 0);
+      }
+      .content {
+        flex: 2;
+        overflow: auto;
+        padding: 1rem;
+        text-align: left;
+        background-color: rgba(255, 255, 255, 0);
+        border-radius: 15px;
+      }
+      .content p {
+        font-size: 3rem;
+      }
+
+      .Code p {
+        font-size: 2rem;
+      }
+
+      .Code {
+        flex: auto;
+        overflow:auto;
+        padding: 1rem;
+        text-align: left;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        border: 1px solid rgb(0, 0, 0);
+      }
+
+      .Code a {
+        color: #ffffff;
+        font-size: 2rem;
+        text-decoration:underline;
+      }
+
+      .content::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 11px;
+      }
+      h1 {
+        font-size: 3rem;
+      }
+      p {
+        font-size: 1.5rem;
+      }
+      code {
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <div class="content">
+
+
+            <p>leaderstats</p>
+            <div class="Code" >
+                <code>
+                    local Saving = true <br>
+                    <br>
+                    local leaderstatsDataStore = game:GetService("DataStoreService"):GetDataStore("leaderstats")<br>
+                    local succses = pcall(function()<br>
+                        leaderstatsDataStore:GetAsync("TestDataStore")<br>
+                    end)<br>
+                    <br>
+                    game.Players.PlayerAdded:Connect(function(player)<br>
+                        local leaderstats = Instance.new("Folder")<br>
+                        leaderstats.Name = "leaderstats"<br>
+                        leaderstats.Parent = player<br>
+                        --Copy<br>
+                        local Cash = Instance.new("NumberValue")<br>
+                        Cash.Name = "Cash"<br>
+                        Cash.Parent = leaderstats<br>
+                        Cash.Value = 0<br>
+                        --<br>
+                        if Saving and succses then<br>
+                            local Data = leaderstatsDataStore:GetAsync(player.UserId)<br>
+                            if Data then<br>
+                                for _, v in leaderstats do<br>
+                                    v.Value = Data[v.Name]<br>
+                                end<br>
+                            end<br>
+                        end<br>
+                    end)<br>
+                    <br>
+                    game.Players.PlayerRemoving:Connect(function(player)<br>
+                        local save = {}<br>
+                        for _, v in player.leaderstats:GetChildren() do<br>
+                            save[v.Name] = v.Value<br>
+                        end<br>
+                        if Saving and succses then<br>
+                            leaderstatsDataStore:SetAsync(player.UserId,save)<br>
+                        end<br>
+                    end)<br>
+                </code>
+            </div>
+
+            <p>Heading</p>
+            <div class="Code" >
+                <code>
+                    Code
+                </code>
+            </div>
+
+
+        </div>
+    </div>
+  </body>
+</html>
